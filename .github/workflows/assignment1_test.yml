@@ -1,8 +1,9 @@
 name: Run PyTest on Asssignment 1
 on:
   push:
-    branches:
-      - assignment-1
+    paths:
+      - 'assignment1/**'
+      - '.github/workflows/**'  # Include workflow changes
 
 jobs:
   test:
