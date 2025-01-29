@@ -1,4 +1,15 @@
 import math
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('gps.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
 def haversine(lat1, lon1, lat2, lon2):
     """
@@ -24,11 +35,38 @@ def haversine(lat1, lon1, lat2, lon2):
     # convert latitude to radians
     lat1 = (lat1) * math.pi / 180.0
     lat2 = (lat2) * math.pi / 180.0
+
+    logger.debug(f"dLat: {dLat}, dLon: {dLon}, lat1: {lat1}, lat2: {lat2}")
  
     # apply formulae
     a = 1 - math.cos(dLat) + math.cos(lat1) * math.cos(lat2) * (1 - math.cos(dLon))
     radius = 6371 # Earth radius in km
+    logger.info(f"Distance calculated: {2 * radius * math.asin(math.sqrt(a/2))}")
     return 2 * radius * math.asin(math.sqrt(a/2))
+
+def validate_coordinates(locations, name="locations"):
+    """Validate GPS coordinate array format and values"""
+    logger.debug(f"Validating coordinates for {name}")
+    if not isinstance(locations, (list, tuple)) or not locations:
+        logger.error(f"{name} must be a non-empty list/tuple")
+        raise ValueError(f"{name} must be a non-empty list/tuple")
+    
+    for point in locations:
+        if not isinstance(point, (list, tuple)) or len(point) != 2:
+            logger.error(f"Each point in {name} must be a list/tuple of length 2")
+            raise ValueError(f"Each point in {name} must be a list/tuple of length 2")
+        
+        lat, lon = point
+        if not isinstance(lat, (int, float)) or not isinstance(lon, (int, float)):
+            logger.error(f"Coordinates in {name} must be numbers")
+            raise ValueError(f"Coordinates in {name} must be numbers")
+            
+        if not -90 <= lat <= 90:
+            logger.error(f"Invalid latitude in {name}: {lat}")
+            raise ValueError(f"Invalid latitude in {name}: {lat}")
+        if not -180 <= lon <= 180:
+            logger.error(f"Invalid longitude in {name}: {lon}")
+            raise ValueError(f"Invalid longitude in {name}: {lon}")
 
 
 def gps_match(locations1, locations2):
@@ -42,6 +80,11 @@ def gps_match(locations1, locations2):
     Returns:
         List of lists (point from locations1, closest point in locadtions2, distance)
     """
+
+    logger.info("Starting GPS location matching")
+
+    validate_coordinates(locations1, "locations1")
+    validate_coordinates(locations2, "locations2")
 
     out = []
 
@@ -57,6 +100,9 @@ def gps_match(locations1, locations2):
 
         # add the two points and the distance to the result
         out.append([point1, locations2[index], min_distance])
+
+        logger.info(f"Match found")
+
 
     return out
 

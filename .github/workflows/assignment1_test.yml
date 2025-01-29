@@ -1,6 +1,6 @@
 name: Run PyTest on Asssignment 1
 on:
-  push:
+  ["push", "pull_request"]:
     paths:
       - 'assignment1/**'
       - '.github/workflows/**'  # Include workflow changes
@@ -29,3 +29,7 @@ jobs:
     - name: Run tests
       run: |
         pytest --cov=assignment1 tests/
+
+    - name: Run profiling
+      run: |
+        python ./tests/profiling.py
