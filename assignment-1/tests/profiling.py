@@ -1,12 +1,12 @@
 import sys
-sys.path.insert(0, '..')
+sys.path.insert(0, '.')
 
 import cProfile
 import tracemalloc
-# import importlib  
-# foobar = importlib.import_module("assignment-1")
 
 import gps
+
+
 
 def test_profiling():
     """Function to profile GPS matching performance"""
