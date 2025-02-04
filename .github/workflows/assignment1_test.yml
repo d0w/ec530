@@ -2,11 +2,11 @@ name: Run PyTest on Asssignment 1
 on:
   push:
     paths:
-      - 'assignment1/**'
+      - 'assignment-1/**'
       - '.github/workflows/**'  # Include workflow changes
     pull_request:
       paths:
-        - 'assignment1/**'
+        - 'assignment-1/**'
         - '.github/workflows/**'  # Include workflow changes
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./assignment1
+        working-directory: ./assignment-1
     
     steps:
     - uses: actions/checkout@v3

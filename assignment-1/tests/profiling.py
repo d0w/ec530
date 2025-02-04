@@ -3,7 +3,10 @@ sys.path.insert(0, '..')
 
 import cProfile
 import tracemalloc
-from assignment1 import gps
+import importlib  
+foobar = importlib.import_module("assignment-1")
+
+import gps
 
 def test_profiling():
     """Function to profile GPS matching performance"""

@@ -2,7 +2,10 @@ import sys
 sys.path.insert(0, '..')
 import pytest
 
-from assignment1 import gps
+import importlib  
+foobar = importlib.import_module("assignment-1")
+
+import gps
 
 def test_valid_coordinates():
     locations1 = [[42.3601, -71.0589], [40.7128, -74.0060]]  # Boston, NYC
