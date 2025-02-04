@@ -2,8 +2,8 @@ import sys
 sys.path.insert(0, '..')
 import pytest
 
-import importlib  
-foobar = importlib.import_module("assignment-1")
+# import importlib  
+# foobar = importlib.import_module("assignment-1")
 
 import gps
 
