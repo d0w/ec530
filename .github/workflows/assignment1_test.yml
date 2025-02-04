@@ -32,7 +32,8 @@ jobs:
     
     - name: Run tests
       run: |
-        pytest --cov=assignment1 tests/
+        python -m coverage run -m pytest tests/
+        coverage report
 
     - name: Run profiling
       run: |
