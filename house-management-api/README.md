@@ -28,8 +28,10 @@ or by default:
    cd house-management-api
    ```
 
-2. Install the dependencies:
+2. Activate a python environment and install the dependencies:
    ```
+   python -m venv .venv
+   # activate venv depending on OS
    pip install -r requirements.txt
    ```
 
