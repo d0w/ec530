@@ -1,0 +1,38 @@
+name: Test and deploy house-management-api
+on:
+  push:
+    paths:
+      - 'house-management-api/**'
+      - '.github/workflows/**'  # Include workflow changes
+    pull_request:
+      paths:
+        - 'house-management-api/**'
+        - '.github/workflows/**'  # Include workflow changes
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./house-management-api
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
+    - name: Run tests
+      run: |
+        python -m pytest tests/
+  
+  deploy:
+    # run deployment here

@@ -2,9 +2,23 @@
 
 https://fastapi.tiangolo.com/virtual-environments/#create-a-virtual-environment
 
+https://medium.com/codenx/fastapi-pydantic-d809e046007f 
+
 # House Management API
 
-This project is a RESTful API built with FastAPI for managing houses, users, rooms, and devices. It provides endpoints to create, retrieve, update, and delete resources related to house management.
+This project is a RESTful API built with FastAPI for managing houses, users, rooms, and devices. It provides endpoints to create, retrieve, update, and delete resources related to house management. The API utilizes Pydantics for type/input validation
+
+Some useful notes:
+- This does not use a DB. As a proof of concept, this uses memory with no persistent storage for now.
+
+## Documentation
+All API documentation uses SwaggerUI and OpenAPI specification at:
+
+`base_url/docs`
+
+or by default:
+
+`http://127.0.0.1:8000/docs`
 
 ## Installation
 
@@ -37,4 +51,37 @@ To run the tests, use the following command:
 
 ```
 pytest
+# or
+python -m pytest tests/
 ```
+
+# Data Specs
+House
+- Name
+- addr
+- gps
+- owner
+- occupants
+Room
+- Name
+- floor
+- sqft
+- house
+- type
+Device
+- type
+- name
+- room
+- settings
+- data
+- status
+User
+- name
+- username
+- phone
+- privillege
+- email
+
+CRUD
+
+Add unit tests

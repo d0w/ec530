@@ -1,40 +1,64 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from src.models.room import Room
 from src.schemas.room import RoomCreate, RoomUpdate
+import logging
+from src.api.utils.id_generator import IdGenerator
+
+logger = logging.getLogger(__name__)
+id_generator = IdGenerator()
 
 router = APIRouter()
 
 # In-memory storage for demonstration purposes
 rooms = []
 
-@router.post("/rooms", response_model=Room)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_room(room: RoomCreate):
-    new_room = Room(**room.dict())
-    rooms.append(new_room)
-    return new_room
+    # get next id
+    new_id = id_generator.get_next_id()
 
-@router.get("/rooms", response_model=list[Room])
+    new_room = Room(id=new_id, **room.model_dump())
+    rooms.append(new_room)
+    logger.info(f"Room created: {new_room}")
+    return {
+        "message": "Room created",
+        "room": new_room
+    }
+
+@router.get("/", status_code=status.HTTP_200_OK)
 async def get_rooms():
+    logger.info("Fetching all rooms")
     return rooms
 
-@router.get("/rooms/{room_id}", response_model=Room)
+@router.get("/{room_id}", status_code=status.HTTP_200_OK)
 async def get_room(room_id: int):
     room = next((r for r in rooms if r.id == room_id), None)
     if room is None:
+        logger.warning(f"Room with ID {room_id} not found")
         raise HTTPException(status_code=404, detail="Room not found")
+    logger.info(f"Room fetched: {room}")
     return room
 
-@router.put("/rooms/{room_id}", response_model=Room)
+@router.put("/{room_id}", status_code=status.HTTP_202_ACCEPTED)
 async def update_room(room_id: int, room_update: RoomUpdate):
     room = next((r for r in rooms if r.id == room_id), None)
     if room is None:
+        logger.warning(f"Room with ID {room_id} not found for update")
         raise HTTPException(status_code=404, detail="Room not found")
-    for key, value in room_update.dict(exclude_unset=True).items():
+    for key, value in room_update.model_dump(exclude_unset=True).items():
         setattr(room, key, value)
-    return room
+    logger.info(f"Room updated: {room}")
+    return {
+        "message": "Room updated",
+        "room": room
+    }
 
-@router.delete("/rooms/{room_id}", status_code=204)
+@router.delete("/{room_id}", status_code=status.HTTP_202_ACCEPTED)
 async def delete_room(room_id: int):
-    global rooms
-    rooms = [r for r in rooms if r.id != room_id] 
-    return {"message": "Room deleted"}
+    for i, room in enumerate(rooms):
+        if room.id == room_id:
+            del rooms[i]
+            logger.info(f"Room with ID {room_id} deleted")
+            return {"message": "Room deleted"}
+    logger.warning(f"Room with ID {room_id} not found for deletion")
+    raise HTTPException(status_code=404, detail="Room not found")

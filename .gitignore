@@ -3,3 +3,17 @@ htmlcov
 *.log
 
 .vscode
+
+__pycache__
+
+*.pyc
+
+*.pyo
+
+*.pyd
+
+*.db
+
+.venv
+
+.env
