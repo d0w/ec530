@@ -21,6 +21,10 @@ or by default:
 
 `http://127.0.0.1:8000/docs`
 
+You can also view the OpenAPI specification here:
+
+[housemanagement-openapi.json](housemanagement-openapi.json)
+
 ## Installation
 
 1. Clone the repository:
@@ -65,12 +69,14 @@ House
 - gps
 - owner
 - occupants
+
 Room
 - Name
 - floor
 - sqft
 - house
 - type
+
 Device
 - type
 - name
@@ -78,13 +84,10 @@ Device
 - settings
 - data
 - status
+
 User
 - name
 - username
 - phone
 - privillege
 - email
-
-CRUD
-
-Add unit tests

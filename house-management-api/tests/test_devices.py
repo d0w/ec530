@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 client = TestClient(app)
 
-# generated with ChatGPT
+
 @pytest.fixture(autouse=True)
 def clear_devices():
     logger.info("Setting up - clearing devices before test")

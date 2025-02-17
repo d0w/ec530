@@ -1,0 +1,961 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "FastAPI", "version": "0.1.0" },
+  "paths": {
+    "/api/houses/": {
+      "get": {
+        "tags": ["houses"],
+        "summary": "Get Houses",
+        "operationId": "get_houses_api_houses__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": { "$ref": "#/components/schemas/HouseResponse" },
+                  "type": "array",
+                  "title": "Response Get Houses Api Houses  Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["houses"],
+        "summary": "Create House",
+        "operationId": "create_house_api_houses__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/HouseCreate" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HouseResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/houses/{house_id}": {
+      "get": {
+        "tags": ["houses"],
+        "summary": "Get House",
+        "operationId": "get_house_api_houses__house_id__get",
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "House Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HouseResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["houses"],
+        "summary": "Update House",
+        "operationId": "update_house_api_houses__house_id__put",
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "House Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/HouseUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["houses"],
+        "summary": "Delete House",
+        "operationId": "delete_house_api_houses__house_id__delete",
+        "parameters": [
+          {
+            "name": "house_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "House Id" }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get Users",
+        "operationId": "get_users_api_users__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": { "$ref": "#/components/schemas/UserResponse" },
+                  "type": "array",
+                  "title": "Response Get Users Api Users  Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["users"],
+        "summary": "Create User",
+        "operationId": "create_user_api_users__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserCreate" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseWithMessage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{user_id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get User",
+        "operationId": "get_user_api_users__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "User Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Update User",
+        "operationId": "update_user_api_users__user_id__put",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "User Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseWithMessage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["users"],
+        "summary": "Delete User",
+        "operationId": "delete_user_api_users__user_id__delete",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "User Id" }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rooms/": {
+      "get": {
+        "tags": ["rooms"],
+        "summary": "Get Rooms",
+        "operationId": "get_rooms_api_rooms__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      },
+      "post": {
+        "tags": ["rooms"],
+        "summary": "Create Room",
+        "operationId": "create_room_api_rooms__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RoomCreate" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rooms/{room_id}": {
+      "get": {
+        "tags": ["rooms"],
+        "summary": "Get Room",
+        "operationId": "get_room_api_rooms__room_id__get",
+        "parameters": [
+          {
+            "name": "room_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Room Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["rooms"],
+        "summary": "Update Room",
+        "operationId": "update_room_api_rooms__room_id__put",
+        "parameters": [
+          {
+            "name": "room_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Room Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RoomUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["rooms"],
+        "summary": "Delete Room",
+        "operationId": "delete_room_api_rooms__room_id__delete",
+        "parameters": [
+          {
+            "name": "room_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Room Id" }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/devices/": {
+      "get": {
+        "tags": ["devices"],
+        "summary": "Get Devices",
+        "operationId": "get_devices_api_devices__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      },
+      "post": {
+        "tags": ["devices"],
+        "summary": "Create Device",
+        "operationId": "create_device_api_devices__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DeviceCreate" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/devices/{device_id}": {
+      "get": {
+        "tags": ["devices"],
+        "summary": "Get Device",
+        "operationId": "get_device_api_devices__device_id__get",
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Device Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["devices"],
+        "summary": "Update Device",
+        "operationId": "update_device_api_devices__device_id__put",
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Device Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DeviceUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["devices"],
+        "summary": "Delete Device",
+        "operationId": "delete_device_api_devices__device_id__delete",
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Device Id" }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Read Root",
+        "operationId": "read_root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DeviceCreate": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "room_id": { "type": "integer", "title": "Room Id" },
+          "device_type": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/DeviceType" },
+              { "type": "null" }
+            ]
+          },
+          "status": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/DeviceStatus" },
+              { "type": "null" }
+            ]
+          },
+          "settings": {
+            "anyOf": [{ "type": "object" }, { "type": "null" }],
+            "title": "Settings"
+          }
+        },
+        "type": "object",
+        "required": ["name", "room_id", "device_type", "status"],
+        "title": "DeviceCreate"
+      },
+      "DeviceStatus": {
+        "type": "string",
+        "enum": ["on", "off", "maintenance", "error"],
+        "title": "DeviceStatus"
+      },
+      "DeviceType": {
+        "type": "string",
+        "enum": ["light", "thermostat", "sensor"],
+        "title": "DeviceType"
+      },
+      "DeviceUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name"
+          },
+          "room_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Room Id"
+          },
+          "device_type": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/DeviceType" },
+              { "type": "null" }
+            ]
+          },
+          "status": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/DeviceStatus" },
+              { "type": "null" }
+            ]
+          },
+          "settings": {
+            "anyOf": [{ "type": "object" }, { "type": "null" }],
+            "title": "Settings"
+          }
+        },
+        "type": "object",
+        "title": "DeviceUpdate"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HouseCreate": {
+        "properties": {
+          "name": { "type": "string", "minLength": 5, "title": "Name" },
+          "address": { "type": "string", "minLength": 5, "title": "Address" },
+          "gps": {
+            "items": { "type": "number" },
+            "type": "array",
+            "title": "Gps"
+          },
+          "owner": { "type": "integer", "title": "Owner" },
+          "occupants": {
+            "anyOf": [
+              { "items": { "type": "string" }, "type": "array" },
+              { "type": "null" }
+            ],
+            "title": "Occupants",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": ["name", "address", "gps", "owner"],
+        "title": "HouseCreate"
+      },
+      "HouseResponse": {
+        "properties": {
+          "name": { "type": "string", "minLength": 5, "title": "Name" },
+          "address": { "type": "string", "minLength": 5, "title": "Address" },
+          "gps": {
+            "items": { "type": "number" },
+            "type": "array",
+            "title": "Gps"
+          },
+          "owner": { "type": "integer", "title": "Owner" },
+          "occupants": {
+            "anyOf": [
+              { "items": { "type": "string" }, "type": "array" },
+              { "type": "null" }
+            ],
+            "title": "Occupants",
+            "default": []
+          },
+          "id": { "type": "integer", "title": "Id" }
+        },
+        "type": "object",
+        "required": ["name", "address", "gps", "owner", "id"],
+        "title": "HouseResponse"
+      },
+      "HouseUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [{ "type": "string", "minLength": 5 }, { "type": "null" }],
+            "title": "Name"
+          },
+          "address": {
+            "anyOf": [{ "type": "string", "minLength": 5 }, { "type": "null" }],
+            "title": "Address"
+          },
+          "gps": {
+            "anyOf": [
+              { "items": { "type": "number" }, "type": "array" },
+              { "type": "null" }
+            ],
+            "title": "Gps"
+          },
+          "owner": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Owner"
+          },
+          "occupants": {
+            "anyOf": [
+              { "items": { "type": "string" }, "type": "array" },
+              { "type": "null" }
+            ],
+            "title": "Occupants"
+          }
+        },
+        "type": "object",
+        "title": "HouseUpdate"
+      },
+      "RoomCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "floor": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Floor"
+          },
+          "sqft": {
+            "anyOf": [
+              { "type": "integer", "exclusiveMinimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Sqft"
+          },
+          "house_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "House Id"
+          },
+          "type": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/RoomType" },
+              { "type": "null" }
+            ]
+          }
+        },
+        "type": "object",
+        "required": ["name", "house_id"],
+        "title": "RoomCreate"
+      },
+      "RoomType": {
+        "type": "string",
+        "enum": [
+          "bedroom",
+          "bathroom",
+          "kitchen",
+          "living_room",
+          "dining_room",
+          "office",
+          "garage",
+          "basement",
+          "attic",
+          "other"
+        ],
+        "title": "RoomType"
+      },
+      "RoomUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              { "type": "string", "maxLength": 50, "minLength": 2 },
+              { "type": "null" }
+            ],
+            "title": "Name"
+          },
+          "floor": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Floor"
+          },
+          "sqft": {
+            "anyOf": [
+              { "type": "integer", "exclusiveMinimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Sqft"
+          },
+          "house_id": {
+            "anyOf": [
+              { "type": "integer", "exclusiveMinimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "House Id"
+          },
+          "type": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/RoomType" },
+              { "type": "null" }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "RoomUpdate"
+      },
+      "UserCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 3,
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "title": "Username"
+          },
+          "email": { "type": "string", "format": "email", "title": "Email" },
+          "phone": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Phone"
+          },
+          "privilege": {
+            "$ref": "#/components/schemas/UserPrivilege",
+            "default": "user"
+          }
+        },
+        "type": "object",
+        "required": ["name", "username", "email"],
+        "title": "UserCreate"
+      },
+      "UserPrivilege": {
+        "type": "string",
+        "enum": ["user", "admin"],
+        "title": "UserPrivilege"
+      },
+      "UserResponse": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 3,
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "title": "Username"
+          },
+          "email": { "type": "string", "format": "email", "title": "Email" },
+          "phone": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Phone"
+          },
+          "privilege": {
+            "$ref": "#/components/schemas/UserPrivilege",
+            "default": "user"
+          },
+          "id": { "type": "integer", "title": "Id" }
+        },
+        "type": "object",
+        "required": ["name", "username", "email", "id"],
+        "title": "UserResponse"
+      },
+      "UserResponseWithMessage": {
+        "properties": {
+          "message": { "type": "string", "title": "Message" },
+          "user": { "$ref": "#/components/schemas/UserResponse" }
+        },
+        "type": "object",
+        "required": ["message", "user"],
+        "title": "UserResponseWithMessage"
+      },
+      "UserUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              { "type": "string", "maxLength": 50, "minLength": 2 },
+              { "type": "null" }
+            ],
+            "title": "Name"
+          },
+          "username": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20,
+                "minLength": 3,
+                "pattern": "^[a-zA-Z0-9_-]+$"
+              },
+              { "type": "null" }
+            ],
+            "title": "Username"
+          },
+          "email": {
+            "anyOf": [
+              { "type": "string", "format": "email" },
+              { "type": "null" }
+            ],
+            "title": "Email"
+          },
+          "phone": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Phone"
+          },
+          "privilege": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/UserPrivilege" },
+              { "type": "null" }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "UserUpdate"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
