@@ -1,0 +1,13 @@
+
+services:
+  sqlite:
+    container_name: my-sqlite-container
+    image: keinos/sqlite3
+    volumes:
+      - sqlite-data:/mydatabase
+    ports:
+      - "5432:5432"
+    restart: always
+
+volumes:
+  sqlite-data:

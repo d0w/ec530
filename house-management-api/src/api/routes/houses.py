@@ -11,6 +11,7 @@ router = APIRouter()
 id_generator = IdGenerator()
 
 
+
 # In-memory storage for demonstration purposes
 houses = []
 
