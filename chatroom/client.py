@@ -44,28 +44,28 @@ async def main():
         reader, writer = await asyncio.open_connection(IP_address, Port)
         print(f"Connected to {IP_address}:{Port}")
         
-        # Get first server message (welcome)
+        # get first server message (welcome)
         welcome = await reader.read(2048)
         print(welcome.decode('utf-8'))
         
-        # Send username
+        # send username
         username = input("Enter your username: ")
         writer.write(username.encode('utf-8'))
         await writer.drain()
         
-        # Create tasks for sending and receiving
+        # create tasks for sending and receiving
         recv_task = asyncio.create_task(receive_messages(reader))
         send_task = asyncio.create_task(send_messages(writer))
         
         print("Connected to the server. Type /help for commands.")
         
-        # Wait for one of the tasks to complete (likely send_task when user types /quit)
+        # wait for one of the tasks to complete
         done, pending = await asyncio.wait(
             [recv_task, send_task],
             return_when=asyncio.FIRST_COMPLETED
         )
         
-        # Cancel the remaining task
+        # cancel the remaining task
         for task in pending:
             task.cancel()
             try:

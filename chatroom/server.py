@@ -1,9 +1,8 @@
-# Python program to implement server side of P2P chat using asyncio
 import asyncio
 import socket
 import sys
 
-# Dictionary to store client connections with usernames as keys
+# store client connections with usernames as keys
 clients = {}
 
 async def send_message_to_client(writer, message):
@@ -23,7 +22,7 @@ async def handle_private_message(sender, message_text, writer):
         return
     
     try:
-        # Parse recipient and message
+        # parse recipient and message
         parts = message_text.split(' ', 1)
         recipient = parts[0][1:]  # Remove the @ symbol
         
@@ -33,12 +32,12 @@ async def handle_private_message(sender, message_text, writer):
             
         content = parts[1]
         
-        # Check if recipient exists
+        # check if recipient exists
         if recipient in clients:
             recipient_writer = clients[recipient]['writer']
-            # Send to recipient
+            # send to recipient
             await send_message_to_client(recipient_writer, f"[From {sender}]: {content}")
-            # Confirm to sender
+            # confirm to sender
             await send_message_to_client(writer, f"[To {recipient}]: {content}")
         else:
             await send_message_to_client(writer, f"ERROR: User {recipient} not found")
@@ -66,37 +65,35 @@ async def handle_client(reader, writer):
     addr = writer.get_extra_info('peername')
     print(f"New connection from {addr[0]}:{addr[1]}")
     
-    # Send welcome message
     await send_message_to_client(writer, "Welcome! Please enter your username:")
     
-    # Get username
+    # get username
     username_data = await reader.read(2048)
     username = username_data.decode('utf-8').strip()
     
-    # Check if username exists
+    # check if username exists
     if username in clients:
         await send_message_to_client(writer, "ERROR: Username already taken. Please reconnect with a different name.")
         writer.close()
         await writer.wait_closed()
         return
     
-    # Register client
+    # register client
     clients[username] = {
         'reader': reader,
         'writer': writer,
         'addr': addr
     }
     
-    # Welcome message
     await send_message_to_client(writer, f"Welcome {username}! To chat with someone, type @username message")
     
-    # Notify all users about new user
+    # notify all users about new user
     for name, client_data in clients.items():
         if name != username:
             await send_message_to_client(client_data['writer'], f"SERVER: {username} has connected")
             await send_message_to_client(writer, f"SERVER: {name} is online")
     
-    # Main message processing loop
+    # main loop to handle client messages
     try:
         while True:
             data = await reader.read(2048)
@@ -120,11 +117,11 @@ async def handle_client(reader, writer):
     except Exception as e:
         print(f"Error with client {username}: {e}")
     finally:
-        # Remove client from dictionary
+        # remove client from dictionary
         if username in clients:
             del clients[username]
         
-        # Notify other users
+        # nitify other users
         for name, client_data in clients.items():
             await send_message_to_client(client_data['writer'], f"SERVER: {username} has disconnected")
         
@@ -133,7 +130,6 @@ async def handle_client(reader, writer):
         await writer.wait_closed()
 
 async def main():
-    # Check command line arguments
     if len(sys.argv) != 3:
         print("Correct usage: script, IP address, port number")
         return
