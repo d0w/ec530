@@ -1,0 +1,6 @@
+python application.py --username Alice --discovery-port 5000 --p2p-port 5001 --db postgresql://postgres:postgres@localhost:5432/p2p_chat
+
+python application.py --username Bob --discovery-port 5002 --p2p-port 5003 --db postgresql://postgres:postgres@localhost:5432/p2p_chat
+
+
+docker run --name p2p-chat-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=p2p_chat -p 5432:5432 -d postgres

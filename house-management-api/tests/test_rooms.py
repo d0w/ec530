@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 client = TestClient(app)
 
-
+# chatgpt used to enhance original test cases to improve coverage
 @pytest.fixture(autouse=True)
 def clear_rooms():
     logger.info("Setting up - clearing rooms before test")
