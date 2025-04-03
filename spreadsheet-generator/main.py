@@ -10,6 +10,10 @@ logger = logging.getLogger(__name__)
 
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 def connect_to_database():
     """create connectiont to DB"""
     try:
@@ -127,6 +131,8 @@ def main():
 
                     if line.strip().endswith(";"):
                         break
+
+                logger.debug(query_lines)
 
                 if query_lines:
                     query = ' '.join(query_lines)

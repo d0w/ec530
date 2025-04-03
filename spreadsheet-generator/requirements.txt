@@ -2,3 +2,5 @@ pandas
 psycopg2
 sqlalchemy
 numpy
+requests
+dotenv
