@@ -2,6 +2,11 @@ import pandas as pd
 import psycopg2
 from sqlalchemy import create_engine
 import numpy as np
+import logging
+
+import sqldb as db
+
+logger = logging.getLogger(__name__)
 
 import os
 
@@ -31,67 +36,6 @@ def connect_to_database():
         return None, None
     
 
-def create_table_manually(conn):
-    try:
-        cursor = conn.cursor()
-
-        create_table_query = '''
-            CREATE TABLE IF NOT EXISTS students (
-                id SERIAL PRIMARY KEY,
-                name VARCHAR(100) NOT NULL,
-                age INTEGER,
-                grade FLOAT,
-                active BOOLEAN
-            );
-        '''
-
-        cursor.execute(create_table_query)
-        conn.commit()
-        print("Students table created")
-    except Exception as e:
-        print(f"Error: {e}")
-
-def create_table(conn, df):
-    schema = {}
-
-    for column in df.columns:
-        # get type of each column
-        dtype = df[column].dtype
-
-        # if column has nulls, then make type null
-        has_nulls = df[column].isnull().any()
-        nullable = "" if has_nulls else "NOT NULL"
-
-        if np.issubdtype(dtype, np.integer):
-            schema[column] = f"INTEGER {nullable}"
-        elif np.issubdtype(dtype, np.floating):
-            schema[column] = f"REAL {nullable}"
-        elif np.issubdtype(dtype, np.floating):
-            schema[column] = f"REAL {nullable}"
-        elif np.issubdtype(dtype, np.floating):
-            schema[column] = f"REAL {nullable}"
-        elif np.issubdtype(dtype, np.floating):
-            schema[column] = f"REAL {nullable}"
-
-
-
-def load_csv_to_df(csv_path):
-    try:
-        df = pd.read_csv(csv_path)
-
-        return df
-    except Exception as e:
-        print(f"Error loading DF: {e}")
-        return None
-    
-def insert_df_to_sql(df, table_name, engine, if_exists="replace"):
-    try:
-        df.to_sql(table_name, engine, if_exists=if_exists)
-        print(f"Successful insertion into: {table_name}")
-
-    except Exception as e:
-        print(f"Error inserting data: {e}")
-
 def generate_sample_csv():
     """Generate a sample CSV file if one doesn't exist"""
     csv_path = 'sample_students.csv'
@@ -117,25 +61,102 @@ def generate_sample_csv():
     
     return csv_path
 
-
-def main():
-    csv_path = generate_sample_csv()
-
-    conn, engine = connect_to_database()
-    if conn is None or engine is None:
-        return 
+def process_csv(conn, engine):
+    csv_path = input("Enter path to csv file: ")
+    if csv_path == "":
+        csv_path = generate_sample_csv()
     
-    create_table(conn)
 
-    df = load_csv_to_df(csv_path)
+
+    df = db.load_csv_to_df(csv_path)
     if df is None:
+        logger.error("No CSV found")
         conn.close()
         return
     
-    insert_df_to_sql(df, "students", engine)
+    table_name = os.path.splitext(os.path.basename(csv_path))[0]
+    db.create_table_automatically(conn, df, table_name)
+
+    db.insert_df_to_sql(df, "sample_students", engine)
 
     conn.close()
-    print("Connection closed")
+
+
+def main():
+
+    try:
+
+        conn, engine = connect_to_database()
+        if conn is None or engine is None:
+            return 
+        
+        while True:
+            print("\n=== PostgreSQL CSV Operations ===")
+            print("1. Process CSV file (create table & insert data)")
+            print("2. List available tables")
+            print("3. View sample data from a table")
+            print("4. Run SQL query")
+            print("5. Export table to CSV")
+            print("6. Ask in plain english")
+            print("7. Exit")
+
+            choice = input("\nEnter choice: ")
+
+            if choice == "1":
+                # process CSV
+                process_csv(conn, engine)
+                continue
+            elif choice == "2":
+                # list tables
+                db.list_tables(conn)
+                continue
+            elif choice == "3":
+                # view sample data
+                continue
+            elif choice == "4":
+                # run sql query
+                print("\n--- SQL Query Execution ---")
+                print("Enter SQL Query (exit to cancel): ")
+                query_lines = []
+
+                while True:
+                    line = input()
+                    if line.lower() == "exit":
+                        break
+                    query_lines.append(line)
+
+                    if line.strip().endswith(";"):
+                        break
+
+                if query_lines:
+                    query = ' '.join(query_lines)
+                    db.execute_query(conn, query)
+                continue
+            elif choice == "5":
+                continue
+            elif choice == "6":
+                # plain english using AI
+                print("\n--- Ask in Plain English")
+                print("Exit to cancel")
+
+                user_query = input("What would you like to do: ")
+                if user_query.lower() != "exit":
+                    db.natural_language_query(conn, user_query)
+
+                continue
+            elif choice == "7":
+                print("\nExiting program")
+                break
+            else:
+                print("\nInvalid choice")
+
+    except Exception as e:
+        logger.error(e)
+
+    finally:
+        if conn:
+            conn.close()
+            print("Connection closed")
 
 if __name__ == "__main__":
     main()
