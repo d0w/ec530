@@ -1,0 +1,31 @@
+[build-system]
+requires = [
+    "hatchling >= 1.26",
+    "pandas",
+    "psycopg2-binary",
+    "sqlalchemy",
+    "numpy",
+    "requests",
+    "dotenv"
+ ]
+build-backend = "hatchling.build"
+
+[project]
+name = "datasheet_d0w"
+version = "0.0.1"
+authors = [
+  { "name" = "Your Name", "email" = "example@example" }
+]
+
+description = "A spreadsheet generator for data analysis"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+  "Programming Language :: Python :: 3.8",
+  "Operating System :: OS Independent",
+]
+licence = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://github.com/d0w/spreadsheet-generator"
+Issues = "https://github.com/d0w/spreadsheet-generator/issues"
